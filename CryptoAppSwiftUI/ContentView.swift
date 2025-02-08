@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ZStack {
-            Color.theme.redColor.ignoresSafeArea()
+       NavigationView {
+           HomeView()
         }
     }
 }
