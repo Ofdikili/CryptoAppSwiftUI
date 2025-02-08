@@ -60,6 +60,19 @@ struct CoinModel: Identifiable, Codable {
         return Int(marketCapRank ?? 0)
     }
     
+
+    static let mockCoinData: [CoinModel] = [
+        CoinModel(id: "bitcoin", symbol: "btc", name: "Bitcoin", image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png", currentPrice: 58908, marketCap: 1100013258170, marketCapRank: 1, fullyDilutedValuation: 1235028318246, totalVolume: 69075964521, high24H: 59504, low24H: 57672, priceChange24H: 808.94, priceChangePercentage24H: 1.39, marketCapChange24H: 13240944103, marketCapChangePercentage24H: 1.21, circulatingSupply: 18704250, totalSupply: 21000000, maxSupply: 21000000, ath: 64805, athChangePercentage: -9.24, athDate: "2021-04-14T11:54:46.763Z", atl: 67.81, atlChangePercentage: 86630.18, atlDate: "2013-07-06T00:00:00.000Z", lastUpdated: "2021-05-09T04:06:09.766Z", sparklineIn7D: SparklineIn7D(price: [57812.96, 57504.33]), priceChangePercentage24HInCurrency: 1.39, currentHoldings: 1.5),
+        
+        CoinModel(id: "ethereum", symbol: "eth", name: "Ethereum", image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png", currentPrice: 3908, marketCap: 452001325817, marketCapRank: 2, fullyDilutedValuation: 503502831824, totalVolume: 29075964521, high24H: 3954, low24H: 3767, priceChange24H: 58.94, priceChangePercentage24H: 1.5, marketCapChange24H: 640944103, marketCapChangePercentage24H: 1.23, circulatingSupply: 115000000, totalSupply: nil, maxSupply: nil, ath: 4385, athChangePercentage: -10.2, athDate: "2021-05-12T11:54:46.763Z", atl: 0.43, atlChangePercentage: 908232.34, atlDate: "2015-10-20T00:00:00.000Z", lastUpdated: "2021-05-09T04:06:09.766Z", sparklineIn7D: SparklineIn7D(price: [3800.96, 3850.33]), priceChangePercentage24HInCurrency: 1.5, currentHoldings: 2.3),
+        
+        CoinModel(id: "cardano", symbol: "ada", name: "Cardano", image: "https://assets.coingecko.com/coins/images/975/large/cardano.png", currentPrice: 1.36, marketCap: 45200132581, marketCapRank: 5, fullyDilutedValuation: 50350283182, totalVolume: 5075964521, high24H: 1.40, low24H: 1.32, priceChange24H: 0.04, priceChangePercentage24H: 3.0, marketCapChange24H: 6409441, marketCapChangePercentage24H: 1.25, circulatingSupply: 32000000000, totalSupply: 45000000000, maxSupply: 45000000000, ath: 2.45, athChangePercentage: -44.3, athDate: "2021-09-02T11:54:46.763Z", atl: 0.017, atlChangePercentage: 8000.12, atlDate: "2017-10-01T00:00:00.000Z", lastUpdated: "2021-05-09T04:06:09.766Z", sparklineIn7D: SparklineIn7D(price: [1.33, 1.35]), priceChangePercentage24HInCurrency: 3.0, currentHoldings: 1000.0),
+        
+        CoinModel(id: "ripple", symbol: "xrp", name: "XRP", image: "https://assets.coingecko.com/coins/images/44/large/xrp.png", currentPrice: 0.85, marketCap: 39200132581, marketCapRank: 6, fullyDilutedValuation: 45350283182, totalVolume: 5075964521, high24H: 0.87, low24H: 0.81, priceChange24H: 0.02, priceChangePercentage24H: 2.5, marketCapChange24H: 409441, marketCapChangePercentage24H: 1.10, circulatingSupply: 100000000000, totalSupply: nil, maxSupply: nil, ath: 3.84, athChangePercentage: -78.2, athDate: "2018-01-04T11:54:46.763Z", atl: 0.002, atlChangePercentage: 41234.12, atlDate: "2013-08-02T00:00:00.000Z", lastUpdated: "2021-05-09T04:06:09.766Z", sparklineIn7D: SparklineIn7D(price: [0.83, 0.84]), priceChangePercentage24HInCurrency: 2.5, currentHoldings: 5000.0)
+    ]
+
+    // Yukarıdaki veri setine 6 coin daha ekleyerek genişletebilirsiniz.
+    
 }
 
 struct SparklineIn7D: Codable {
