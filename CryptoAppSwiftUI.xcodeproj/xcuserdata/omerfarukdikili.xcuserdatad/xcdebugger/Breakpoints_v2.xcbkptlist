@@ -14,9 +14,25 @@
             filePath = "CryptoAppSwiftUI/Core/HomeView/View/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "body"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "homeHeaderView"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5FDBCAA9-55A3-45CD-8326-B524F8956745"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CryptoAppSwiftUI/Models/CoinModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "currentHoldingsValue"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

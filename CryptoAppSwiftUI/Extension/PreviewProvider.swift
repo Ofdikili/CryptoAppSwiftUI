@@ -19,5 +19,7 @@ class DeveloperPreviewProvider {
     
     private init() {}
     
+    let homeVm = HomeViewModel()
+    
     let coin : CoinModel = CoinModel.mockCoinData.first!
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CoinRowView: View {
     let coin : CoinModel
-    let  showHoldingColumn : Bool
+    let showHoldingColumn : Bool
     var body: some View {
         HStack{
             leftColumn
@@ -33,7 +33,7 @@ extension CoinRowView{
                 .frame(minWidth: 30)
             Circle()
                 .frame(width: 30, height: 30)
-            Text(coin.name)
+            Text(coin.symbol.uppercased())
                 .font(.headline)
                 .padding(.leading, 6)
                 .foregroundStyle(Color.theme.accent)
@@ -56,7 +56,7 @@ extension CoinRowView{
                 .foregroundStyle(Color.theme.accent)
             Text("\(coin.priceChangePercentage24H ?? 0)")
                 .foregroundStyle((coin.priceChangePercentage24H ?? 0) >= 0 ? Color.theme.greenColor : Color.theme.redColor)
-        }.frame(width: UIScreen.main.bounds.width/3,alignment: .trailing)
+        }.frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
     }
 }
 
