@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct CryptoAppSwiftUIApp: App {
+    var coins : [CoinModel] = CoinModel.mockCoinData
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

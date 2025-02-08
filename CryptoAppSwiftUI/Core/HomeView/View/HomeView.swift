@@ -17,11 +17,17 @@ struct HomeView: View {
             
             VStack {
                 HomeHeaderView(showPortfolio: $homeViewModel.showPortfolio)
+                if !homeViewModel.showPortfolio {
+                    List {
+                        ForEach(homeViewModel.allCoins) { coin in
+                            CoinRowView(coin: coin, showHoldingColumn: false)
+                        }
+                    }
+                    .listStyle(PlainListStyle())
+                    .transition(.move(edge: .leading))
+                }
                 Spacer(minLength: 0)
-            }
-            
-            if homeViewModel.showPortfolio {
-                Text("Portfolio")
+
             }
         }
     }
