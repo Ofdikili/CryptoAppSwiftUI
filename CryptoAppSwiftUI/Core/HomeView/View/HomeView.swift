@@ -8,35 +8,61 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var homeViewModel = HomeViewModel()
+
     var body: some View {
-        ZStack{
+        ZStack {
             Color.theme.backgroundColor
                 .ignoresSafeArea()
-            VStack{
-                HStack{
-                    CircleButtonView(imageName: "heart.fill")
-                    Spacer()
-                    Text("Hello, World!")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.theme.accent)
-                    Spacer()
-                    CircleButtonView(imageName: "chevron.right")
-
-                }
-                .padding(.horizontal)
+            
+            VStack {
+                HomeHeaderView(showPortfolio: $homeViewModel.showPortfolio)
                 Spacer(minLength: 0)
+            }
+            
+            if homeViewModel.showPortfolio {
+                Text("Portfolio")
             }
         }
     }
 }
 
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView{
-            HomeView()
-                .navigationBarHidden(true)
+
+private extension HomeView {
+    struct HomeHeaderView: View {
+        @Binding var showPortfolio: Bool
+        
+        var body: some View {
+            HStack {
+                CircleButtonView(imageName: showPortfolio ? "plus" : "info")
+                    .animation(.none)
+                    .background(
+                        CircleButtonAnimationView(isAnimating: $showPortfolio)
+                    )
+                
+                Spacer()
+                
+                Text(showPortfolio ? "Portfolio" : "Live Prices")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.theme.accent)
+                
+                Spacer()
+                
+                CircleButtonView(imageName: "chevron.right")
+                    .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            showPortfolio.toggle()
+                        }
+                    }
+            }
+            .padding(.horizontal)
         }
     }
+}
+
+#Preview {
+    return HomeView()
 }
