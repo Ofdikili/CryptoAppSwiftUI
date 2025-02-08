@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var homeViewModel = HomeViewModel()
+    @EnvironmentObject private var homeViewModel : HomeViewModel
 
     var body: some View {
         ZStack {
@@ -16,15 +16,17 @@ struct HomeView: View {
                 .ignoresSafeArea()
             
             VStack {
-                HomeHeaderView(showPortfolio: $homeViewModel.showPortfolio)
+                homeHeaderView
+                columnTitles
                 if !homeViewModel.showPortfolio {
-                    List {
-                        ForEach(homeViewModel.allCoins) { coin in
-                            CoinRowView(coin: coin, showHoldingColumn: false)
-                        }
-                    }
-                    .listStyle(PlainListStyle())
-                    .transition(.move(edge: .leading))
+                    allCoinList
+                        .transition(.move(edge: .leading))
+
+                }
+                if homeViewModel.showPortfolio {
+                    portfolioCoinList
+                        .transition(.move(edge: .trailing))
+
                 }
                 Spacer(minLength: 0)
 
@@ -36,20 +38,17 @@ struct HomeView: View {
 
 
 private extension HomeView {
-    struct HomeHeaderView: View {
-        @Binding var showPortfolio: Bool
-        
-        var body: some View {
+    private var homeHeaderView:some View {
             HStack {
-                CircleButtonView(imageName: showPortfolio ? "plus" : "info")
+                CircleButtonView(imageName: homeViewModel.showPortfolio ? "plus" : "info")
                     .animation(.none)
                     .background(
-                        CircleButtonAnimationView(isAnimating: $showPortfolio)
+                        CircleButtonAnimationView(isAnimating: $homeViewModel.showPortfolio)
                     )
                 
                 Spacer()
                 
-                Text(showPortfolio ? "Portfolio" : "Live Prices")
+                Text(homeViewModel.showPortfolio ? "Portfolio" : "Live Prices")
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.theme.accent)
@@ -57,18 +56,53 @@ private extension HomeView {
                 Spacer()
                 
                 CircleButtonView(imageName: "chevron.right")
-                    .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
+                    .rotationEffect(Angle(degrees: homeViewModel.showPortfolio ? 180 : 0))
                     .onTapGesture {
                         withAnimation(.spring()) {
-                            showPortfolio.toggle()
+                            homeViewModel.showPortfolio.toggle()
                         }
                     }
             }
             .padding(.horizontal)
+    }
+    
+    private var allCoinList : some View{
+        List {
+            ForEach(homeViewModel.allCoins) { coin in
+                CoinRowView(coin: coin, showHoldingColumn: false)
+            }
         }
+        .listStyle(PlainListStyle())
+    }
+    
+    private var portfolioCoinList : some View{
+        List {
+            ForEach(homeViewModel.portfolioCoins) { coin in
+                CoinRowView(coin: coin, showHoldingColumn: true)
+            }
+        }
+        .listStyle(PlainListStyle())
+        .transition(.move(edge: .leading))
+    }
+    
+    private var columnTitles : some View{
+        HStack{
+            Text("Coin")
+            Spacer()
+            if(homeViewModel.showPortfolio){
+                Text("Holdings")
+                   
+            }
+           
+            Text("Price") .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+        }
+        .font(.caption)
+        .foregroundStyle(Color.theme.secondaryTextColor)
+        .padding(.horizontal)
     }
 }
 
 #Preview {
     return HomeView()
+        .environmentObject(DeveloperPreviewProvider.instance.homeVm)
 }
