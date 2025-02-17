@@ -12,7 +12,7 @@ import Combine
 class CoinImageService {
     @Published var image :UIImage? = nil
     
-    var imageSubsctiption: AnyCancellable?
+    private var imageSubsctiption: AnyCancellable?
 
     
     init(urlString:String){
