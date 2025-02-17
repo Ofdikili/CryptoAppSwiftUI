@@ -20,5 +20,5 @@ struct CircleButtonAnimationView: View {
 }
 
 #Preview {
-    CircleButtonAnimationView(isAnimating: .constant(false))
+    CircleButtonAnimationView(isAnimating: .constant(true))
 }
