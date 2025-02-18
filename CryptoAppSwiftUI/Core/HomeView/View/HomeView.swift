@@ -16,6 +16,7 @@ struct HomeView: View {
             
             VStack {
                 homeHeaderView
+                MarketingsScatisticsView(showPortfolio: $homeViewModel.showPortfolio)
                 SearchBarView(searchText: $homeViewModel.searchText)
                 columnTitles
                 if !homeViewModel.showPortfolio {
@@ -30,7 +31,7 @@ struct HomeView: View {
                 }
                 Spacer(minLength: 0)
 
-            }
+            }.padding()
         }
     }
 }
