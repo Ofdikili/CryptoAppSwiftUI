@@ -12,6 +12,14 @@ final class HomeViewModel: ObservableObject {
     @Published var showPortfolio: Bool = false
     @Published var allCoins: [CoinModel] = []
     @Published var portfolioCoins: [CoinModel] = []
+    @Published var searchText: String = ""{
+        didSet {
+            if(!searchText.isEmpty){
+                self.allCoins = self.allCoins.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            }
+            
+        }
+    }
     
     private let coinDataService = CoinDataService()
     private var cancellables = Set<AnyCancellable>()

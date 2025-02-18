@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var homeViewModel : HomeViewModel
-
     var body: some View {
         ZStack {
             Color.theme.backgroundColor
@@ -17,6 +16,7 @@ struct HomeView: View {
             
             VStack {
                 homeHeaderView
+                SearchBarView(searchText: $homeViewModel.searchText)
                 columnTitles
                 if !homeViewModel.showPortfolio {
                     allCoinList
