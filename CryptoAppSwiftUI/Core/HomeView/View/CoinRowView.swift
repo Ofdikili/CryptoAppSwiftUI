@@ -21,7 +21,9 @@ struct CoinRowView: View {
             rightColumn
         }
         .font(.subheadline)
+        .background(Color.theme.backgroundColor.opacity(0.001))
     }
+    
 }
 
 extension CoinRowView{

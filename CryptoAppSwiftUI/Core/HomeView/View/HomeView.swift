@@ -10,7 +10,9 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var homeViewModel : HomeViewModel
     @State var showPortfolioView: Bool = false
-
+    
+    @State private var selectedCoin: CoinModel? = nil
+    @State private var showCoinDetails: Bool = false
     var body: some View {
         ZStack {
             Color.theme.backgroundColor
@@ -36,11 +38,18 @@ struct HomeView: View {
                 Spacer(minLength: 0)
 
             }.padding()
-        }
+        }.background(
+            NavigationLink(
+                destination : DetailViewLoadingView(coin: $selectedCoin),
+                isActive:$showCoinDetails,
+                label:{
+                    EmptyView()
+                }
+            )
+        )
 
-        
     }
-}
+        }
 
 
 
@@ -77,10 +86,17 @@ private extension HomeView {
             .padding(.horizontal)
     }
     
+    private func seque(coin : CoinModel){
+        selectedCoin = coin
+        showCoinDetails.toggle()
+    }
     private var allCoinList : some View{
         List {
             ForEach(homeViewModel.allCoins) { coin in
                 CoinRowView(coin: coin, showHoldingColumn: false)
+                    .onTapGesture {
+                        seque(coin: coin)
+                    }
             }
         }
         .listStyle(PlainListStyle())
@@ -152,3 +168,4 @@ private extension HomeView {
     return HomeView()
         .environmentObject(DeveloperPreviewProvider.instance.homeVm)
 }
+

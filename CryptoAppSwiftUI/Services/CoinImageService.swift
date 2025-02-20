@@ -28,9 +28,9 @@ class CoinImageService {
         
         if let imageData = fileManager.getImage(imageName: imageName, folderName: folderName){
             image = imageData
-            print("retreived from local cache")
+//            print("retreived from local cache")
         }else{
-            print("Starting Downloading Image")
+//            print("Starting Downloading Image")
 
             downloadCoinImage()
         }
