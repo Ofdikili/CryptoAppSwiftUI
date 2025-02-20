@@ -17,7 +17,6 @@ struct PortfolioView: View {
             
             ScrollView {
                 VStack{
-                  
                     searchBarView
                     coinLogoList
                     if(selectedCoin != nil){
@@ -31,21 +30,55 @@ struct PortfolioView: View {
                         XmarkButtonView()
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        HStack(spacing:4){
-                            Button(action:{}, label: {
-                                Text("Save")
-                                    .font(.headline)
-                            })
-                        }.opacity(selectedCoin != nil && selectedCoin!.currentHoldings != Double(quantityText) ? 1.0: 0.0)
+                        tralingToolBarButton
                     }
-                })
+                }).onChange(of: homeViewModel.searchText) { value in
+                    if value == "" {
+                        removeSelectedCoin()
+                    }
+                }
         }
     }
 }
 
 extension PortfolioView {
+    
+    private  func removeSelectedCoin(){
+        selectedCoin = nil
+        quantityText = ""
+    }
+    private func updateSelectedCoin(coin:CoinModel){
+        selectedCoin = coin
+        if let portfolioCoin = homeViewModel.portfolioCoins.first(where: {$0.id == coin.id}),
+           let amont = portfolioCoin.currentHoldings{
+            quantityText = String(amont)
+        }
+        else{
+            quantityText = ""
+           }
+    }
+    
+    private func savePortolioButtonPressed(){
+        guard let coin = selectedCoin,
+              let amount = Double(quantityText)
+        else { return }
+        homeViewModel.updatePortfolio(coin: coin, amount: amount)
+        UIApplication.shared.endEditing()
+    }
+    
     var searchBarView: some View {
         SearchBarView(searchText: $homeViewModel.searchText)
+    }
+    
+    var tralingToolBarButton : some View {
+        HStack(spacing:4){
+            Button(action:{
+                savePortolioButtonPressed()
+            }, label: {
+                Text("Save")
+                    .font(.headline)
+            })
+        }.opacity(selectedCoin != nil && selectedCoin!.currentHoldings != Double(quantityText) ? 1.0: 0.0)
     }
     
     var coinLogoList: some View {
@@ -55,7 +88,8 @@ extension PortfolioView {
                     CoinLogoView(coin: coin)
                         .frame(width:75)
                         .padding(4)
-                        .onTapGesture {selectedCoin = coin}
+                        .onTapGesture {
+                            updateSelectedCoin(coin:coin)         }
                         .background(content: {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(selectedCoin?.id == coin.id ? Color.theme.greenColor : Color.clear)
