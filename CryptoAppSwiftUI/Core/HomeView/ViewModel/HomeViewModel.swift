@@ -16,6 +16,7 @@ final class HomeViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var statistics : [StatisticModel] = []
     @Published var savedEnities: [PortfolioEntity] = []
+    @Published var selectedCoinSortType: CoinSortType = .holdings
     
     private let coinDataService = CoinDataService()
     private let portfolioDataService = PortfolioDataService()
@@ -35,11 +36,12 @@ final class HomeViewModel: ObservableObject {
         //                self?.allCoins = coins
         //                }
         //                .store(in: &cancellables)
-        $searchText.combineLatest(coinDataService.$allCoins)
+        $searchText.combineLatest(coinDataService.$allCoins,$selectedCoinSortType)
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-            .map(filterCoin)
+            .map(filterAndShortCoin)
             .sink { [weak self] (coins) in
                 self?.allCoins = coins
+               
             }
             .store(in: &cancellables)
         
@@ -55,7 +57,8 @@ final class HomeViewModel: ObservableObject {
                     
                 }
             }.sink { [weak self] (returnedCoin) in
-                self?.portfolioCoins = returnedCoin
+                guard let self = self else { return }
+                self.portfolioCoins = self.sortPortfolioCoinsIfNeeded(coins: returnedCoin)
             }.store(in: &cancellables)
         
         marketDataService.$marketData.combineLatest($portfolioCoins)
@@ -71,6 +74,8 @@ final class HomeViewModel: ObservableObject {
         //    }.store(in: &cancellables)
     }
     
+    
+    
     public func reloadData(){
         isLoading = true
         coinDataService.getCoinData()
@@ -79,8 +84,38 @@ final class HomeViewModel: ObservableObject {
             
         }
     
+    private func filterAndShortCoin(text: String, coins: [CoinModel], sortType: CoinSortType) -> [CoinModel] {
+        var updatedCoinsCoins = filterCoin(text: text, coins: coins)
+        sortCoins(coins: &updatedCoinsCoins, sortType: sortType)
+        return updatedCoinsCoins
+    }
+
+    private func sortCoins(coins: inout [CoinModel], sortType: CoinSortType) {
+        switch sortType {
+        case .rank, .holdings:
+            coins.sort(by: { $0.rank < $1.rank })
+        case .rankReverse, .holdingsReverse:
+            coins.sort(by: { $0.rank > $1.rank })
+        case .price:
+            coins.sort(by: { $0.currentPrice < $1.currentPrice })
+        case .priceReverse:
+            coins.sort(by: { $0.currentPrice > $1.currentPrice })
+        }
+    }
     
-    private func filterCoin(text:String , coins: [CoinModel])-> [CoinModel]{
+    private func sortPortfolioCoinsIfNeeded(coins: [CoinModel]) -> [CoinModel]{
+        switch selectedCoinSortType {
+        case .holdings:
+            return coins.sorted(by: { $0.currentHoldingsValue >  $1.currentHoldingsValue })
+        case  .holdingsReverse:
+            return coins.sorted(by: { $0.currentHoldingsValue < $1.currentHoldingsValue})
+        default:
+            return coins
+        }
+    }
+    
+    
+    private func filterCoin(text:String , coins: [CoinModel] )-> [CoinModel]{
         guard !text.isEmpty else {
             return coins
         }
