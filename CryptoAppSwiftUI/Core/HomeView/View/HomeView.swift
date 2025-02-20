@@ -99,11 +99,32 @@ private extension HomeView {
     
     private var columnTitles : some View{
         HStack{
-            Text("Coin")
+            HStack{
+                Text("Coin")
+                Image(systemName: "chevron.down")
+                    .opacity(homeViewModel.selectedCoinSortType == .rank || homeViewModel.selectedCoinSortType == .rankReverse ? 1 : 0)
+                    .rotationEffect(Angle(degrees: homeViewModel.selectedCoinSortType == .rank ? 0: 180))
+                   
+            } .onTapGesture {
+                withAnimation(.default) {
+                    homeViewModel.selectedCoinSortType =  homeViewModel.selectedCoinSortType
+                    == .rank ? .rankReverse : .rank
+                }
+            }
             Spacer()
             if(homeViewModel.showPortfolio){
-                Text("Holdings")
-                   
+                HStack{
+                    Text("Holdings")
+                    Image(systemName: "chevron.down")
+                        .opacity(homeViewModel.selectedCoinSortType == .holdings || homeViewModel.selectedCoinSortType == .holdingsReverse ? 1 : 0)
+                        .rotationEffect(Angle(degrees: homeViewModel.selectedCoinSortType == .holdings ? 0: 180))
+                                        }.onTapGesture {
+                                            withAnimation(.default) {
+                                                homeViewModel.selectedCoinSortType =  homeViewModel.selectedCoinSortType
+                                                == .holdings ? .holdingsReverse : .holdings
+                                            }
+                                        }
+
             }
            
             Text("Price") .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
