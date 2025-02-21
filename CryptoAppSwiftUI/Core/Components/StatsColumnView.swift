@@ -13,7 +13,7 @@ struct StatsColumnView: View {
         VStack(alignment:.leading,spacing: 4){
             Text(stats.title)
                 .font(.caption)
-            Text(stats.valeue)
+            Text(stats.value)
                 .font(.headline)
                 .foregroundStyle(Color.theme.accent)
             if(stats.percentageChange != nil){
