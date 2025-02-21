@@ -135,13 +135,13 @@ final class HomeViewModel: ObservableObject {
         guard let data = marketData else{
             return stats
         }
-        let marketCap = StatisticModel(title: "Market Cap", valeue: data.marketCap,percentageChange: data.marketCapChangePercentage24HUsd)
-        let volume = StatisticModel(title: "24h Volume", valeue: data.volume)
-        let btcDominance = StatisticModel(title: "BTC Dominance", valeue: data.btcDominance)
+        let marketCap = StatisticModel(title: "Market Cap", value: data.marketCap,percentageChange: data.marketCapChangePercentage24HUsd)
+        let volume = StatisticModel(title: "24h Volume", value: data.volume)
+        let btcDominance = StatisticModel(title: "BTC Dominance", value: data.btcDominance)
         
         let portfolioValue : Double  = portfolioCoins.map({ $0.currentHoldings ?? 0.0})
             .reduce(0,+)
-        let portfolio = StatisticModel(title: "Portfolio Value", valeue: portfolioValue.asCurrencyWith2Decimals(), percentageChange: 0)
+        let portfolio = StatisticModel(title: "Portfolio Value", value: portfolioValue.asCurrencyWith2Decimals(), percentageChange: 0)
         stats.append(
             contentsOf: [
                 marketCap,

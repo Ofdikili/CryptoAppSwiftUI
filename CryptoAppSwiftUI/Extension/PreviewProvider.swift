@@ -23,8 +23,8 @@ class DeveloperPreviewProvider {
     
     let coin : CoinModel = CoinModel.mockCoinData.first!
     
-    let stats : StatisticModel = StatisticModel(title: "Market Cap", valeue: "$12.58n", percentageChange: 25.34)
-    let stats1 : StatisticModel = StatisticModel(title: "Total Valume", valeue: "1.23Tr")
-    let stat2 : StatisticModel = StatisticModel(title: "Market Cap", valeue: "$12.58n")
+    let stats : StatisticModel = StatisticModel(title: "Market Cap", value: "$12.58n", percentageChange: 25.34)
+    let stats1 : StatisticModel = StatisticModel(title: "Total Valume", value: "1.23Tr")
+    let stat2 : StatisticModel = StatisticModel(title: "Market Cap", value: "$12.58n")
     
 }
